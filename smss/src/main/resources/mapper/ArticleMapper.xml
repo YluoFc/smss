@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luofc.smss.dao.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.luofc.smss.bean.Article">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="typeid" jdbcType="INTEGER" property="typeid" />
+    <result column="hotid" jdbcType="INTEGER" property="hotid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="images" jdbcType="VARCHAR" property="images" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="keywords" jdbcType="VARCHAR" property="keywords" />
+    <result column="zhaiyao" jdbcType="VARCHAR" property="zhaiyao" />
+    <result column="zuozhe" jdbcType="VARCHAR" property="zuozhe" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.luofc.smss.bean.Article">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, typeid, hotid, title, description, images, date, keywords, zhaiyao, zuozhe
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.luofc.smss.bean.ArticleExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from community
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.luofc.smss.bean.ArticleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from community
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from community
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from community
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.luofc.smss.bean.ArticleExample">
+    delete from community
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.luofc.smss.bean.Article">
+    insert into community (id, typeid, hotid, 
+      title, description, images, 
+      date, keywords, zhaiyao, 
+      zuozhe, content)
+    values (#{id,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, #{hotid,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{images,jdbcType=VARCHAR}, 
+      #{date,jdbcType=TIMESTAMP}, #{keywords,jdbcType=VARCHAR}, #{zhaiyao,jdbcType=VARCHAR}, 
+      #{zuozhe,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.luofc.smss.bean.Article">
+    insert into community
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="typeid != null">
+        typeid,
+      </if>
+      <if test="hotid != null">
+        hotid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="images != null">
+        images,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="keywords != null">
+        keywords,
+      </if>
+      <if test="zhaiyao != null">
+        zhaiyao,
+      </if>
+      <if test="zuozhe != null">
+        zuozhe,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null">
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="hotid != null">
+        #{hotid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null">
+        #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keywords != null">
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="zhaiyao != null">
+        #{zhaiyao,jdbcType=VARCHAR},
+      </if>
+      <if test="zuozhe != null">
+        #{zuozhe,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.luofc.smss.bean.ArticleExample" resultType="java.lang.Long">
+    select count(*) from community
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update community
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeid != null">
+        typeid = #{record.typeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.hotid != null">
+        hotid = #{record.hotid,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.images != null">
+        images = #{record.images,jdbcType=VARCHAR},
+      </if>
+      <if test="record.date != null">
+        date = #{record.date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.keywords != null">
+        keywords = #{record.keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zhaiyao != null">
+        zhaiyao = #{record.zhaiyao,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zuozhe != null">
+        zuozhe = #{record.zuozhe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update community
+    set id = #{record.id,jdbcType=INTEGER},
+      typeid = #{record.typeid,jdbcType=INTEGER},
+      hotid = #{record.hotid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      images = #{record.images,jdbcType=VARCHAR},
+      date = #{record.date,jdbcType=TIMESTAMP},
+      keywords = #{record.keywords,jdbcType=VARCHAR},
+      zhaiyao = #{record.zhaiyao,jdbcType=VARCHAR},
+      zuozhe = #{record.zuozhe,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update community
+    set id = #{record.id,jdbcType=INTEGER},
+      typeid = #{record.typeid,jdbcType=INTEGER},
+      hotid = #{record.hotid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      images = #{record.images,jdbcType=VARCHAR},
+      date = #{record.date,jdbcType=TIMESTAMP},
+      keywords = #{record.keywords,jdbcType=VARCHAR},
+      zhaiyao = #{record.zhaiyao,jdbcType=VARCHAR},
+      zuozhe = #{record.zuozhe,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.luofc.smss.bean.Article">
+    update community
+    <set>
+      <if test="typeid != null">
+        typeid = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="hotid != null">
+        hotid = #{hotid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null">
+        images = #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keywords != null">
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="zhaiyao != null">
+        zhaiyao = #{zhaiyao,jdbcType=VARCHAR},
+      </if>
+      <if test="zuozhe != null">
+        zuozhe = #{zuozhe,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.luofc.smss.bean.Article">
+    update community
+    set typeid = #{typeid,jdbcType=INTEGER},
+      hotid = #{hotid,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      images = #{images,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      zhaiyao = #{zhaiyao,jdbcType=VARCHAR},
+      zuozhe = #{zuozhe,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.luofc.smss.bean.Article">
+    update community
+    set typeid = #{typeid,jdbcType=INTEGER},
+      hotid = #{hotid,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      images = #{images,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      zhaiyao = #{zhaiyao,jdbcType=VARCHAR},
+      zuozhe = #{zuozhe,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
